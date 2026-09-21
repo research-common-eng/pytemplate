@@ -1,0 +1,68 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pytemplate"
+version = "0.1.0"
+description = "A minimal Python project template with development tooling"
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+requires-python = ">=3.12"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4,<5",
+    "pytest>=8",
+    "pytest-asyncio>=0.24",
+    "ruff==0.16.8",
+    "pyright>=1.1.414,<2",
+    "pytest-cov>=7,<8",
+    "pip-audit>=2,<3",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pytemplate"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+
+[tool.coverage.run]
+source = ["src/pytemplate"]
+branch = true
+relative_files = true
+patch = ["subprocess"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+
+[tool.ruff]
+target-version = "py312"
+line-length = 88
+required-version = "==0.16.8"
+
+[tool.ruff.format]
+quote-style = "double"
+docstring-code-format = true
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "C4", "UP", "RUF100", "RUF200"]
+ignore = [
+    "E501",  # Let the formatter wrap code; allow long URLs and messages.
+    "C408",  # Allow readable dict(key=value) construction.
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["pytemplate", "tests"]
+extra-standard-library = ["typing_extensions"]
+combine-as-imports = true
+lines-after-imports = 2
+
+[tool.pyright]
+include = ["src/pytemplate"]
+pythonVersion = "3.12"
+typeCheckingMode = "basic"
